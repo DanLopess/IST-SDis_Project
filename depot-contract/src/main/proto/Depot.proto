@@ -1,0 +1,139 @@
+//
+// Protocol buffers definition for Depot
+//
+syntax = "proto3";
+package pt.sayf.depot.grpc;
+
+//
+// Auxiliar Messages
+//
+
+message sentry {
+	string name = 1;
+	float lat = 2;
+	float lon = 3;
+}
+
+message observ {
+	string mac = 1;
+	string timedate = 2;
+	string sentry = 3;
+	float lat = 4;
+	float lon = 5;
+}
+
+message depot {
+	repeated sentry sentries = 1; 
+	repeated observ observations = 2;
+}
+
+//
+// Ctrl Messages
+//
+
+message ctrlPingRequest {}
+
+message ctrlClearRequest {}
+
+message ctrlInitRequest {
+	repeated sentry sentries = 1; 
+	repeated observ observations = 2;
+}
+
+message ctrlPingReply {
+	bool status = 1;
+	repeated string sentries = 2;
+	repeated string observations = 3;
+}
+
+message ctrlClearReply {
+	bool status = 1;
+}
+
+message ctrlInitReply {
+	bool status = 1;
+}
+
+//
+// Depot Messages
+//
+
+// TODO: change messages and add timestamp/replicas to every reply
+
+message gossipRequest {
+	repeated int32 timestamp = 2;
+}
+
+message gossipReply {
+	bool hasdata = 1;
+	int32 replica = 2;
+	int32 version = 3;
+	repeated observ obs = 4;
+}
+
+message joinRequest{
+	string name = 1;
+	float lat = 2;
+	float long = 3;
+}
+
+message joinReply {
+	bool status = 1;
+	string error = 2;
+	int32 replicaNr = 3;
+	repeated int32 timestamp = 4;
+}
+
+message reportRequest {
+	repeated string observations = 1;
+	string sentry = 2;
+	repeated int32 timestamp = 3;
+}
+
+message reportReply  {
+	bool status = 1;
+	int32 replicaNr = 2;
+	repeated int32 timestamp = 3;
+}
+
+message searchRequest {
+	string mac = 1;
+	int32 maxResults = 2;
+	repeated int32 timestamp = 3;
+}
+
+message searchReply  {
+	repeated observ observations = 1;
+	string error = 2;
+	repeated int32 timestamp = 3;
+}
+
+message searchMatchRequest {
+	string fragMac = 1;
+	bool lastBits = 2;
+	int32 maxResults = 3;
+	repeated int32 timestamp = 4;
+}
+
+message searchMatchReply  {
+	repeated observ observations = 1;
+	string error = 2;
+	repeated int32 timestamp = 3;
+}
+
+//
+// Service Definition
+//
+
+service DepotService {
+	rpc join(joinRequest) returns (joinReply);
+	rpc report(reportRequest) returns (reportReply);
+	rpc search(searchRequest) returns (searchReply);
+	rpc searchMatch(searchMatchRequest) returns (searchMatchReply);
+	rpc ctrlPing(ctrlPingRequest) returns (ctrlPingReply);
+	rpc ctrlClear(ctrlClearRequest) returns (ctrlClearReply);
+	rpc ctrlInit(ctrlInitRequest) returns (ctrlInitReply);
+	
+	rpc gossip(gossipRequest) returns (gossipReply);
+	
+}

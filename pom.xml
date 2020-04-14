@@ -1,0 +1,78 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>pt.sayf.T01</groupId>
+  <artifactId>SAYF</artifactId>
+  <version>1.0.0-SNAPSHOT</version>
+  <packaging>pom</packaging>
+
+  
+
+  <properties>
+    
+    <group.id>T01</group.id>
+    <seeker.name>${group.id}_Seeker</seeker.name>
+    <depot.name>${group.id}_Depot</depot.name>
+    <sentry.name>${group.id}_Sentry</sentry.name>
+    
+    <zookeeper.url>localhost:2181</zookeeper.url>
+  
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+    <version.java>1.8</version.java>
+    <maven.compiler.source>${version.java}</maven.compiler.source>
+    <maven.compiler.target>${version.java}</maven.compiler.target>
+    
+    
+    <version.maven-resources-plugin>3.1.0</version.maven-resources-plugin>
+    <version.maven-failsafe-plugin>2.22.2</version.maven-failsafe-plugin>
+    <version.exec-maven-plugin>1.6.0</version.exec-maven-plugin>
+    <version.appassembler-maven-plugin>2.1.0</version.appassembler-maven-plugin>
+    <version.maven-javadoc-plugin>3.1.1</version.maven-javadoc-plugin>
+    <version.junit>4.12</version.junit>
+    <version.grpc>1.24.0</version.grpc>
+    <version.protobuf>3.10.0</version.protobuf>
+    <version.javax.annotation-api>1.3.2</version.javax.annotation-api>
+    <version.protoc>3.8.0</version.protoc>
+    <version.protobuf-maven-plugin>0.6.1</version.protobuf-maven-plugin>
+    <version.os-maven-plugin>1.6.2</version.os-maven-plugin>
+    <version.maven-enforcer-plugin>1.4.1</version.maven-enforcer-plugin>
+    <version.maven-compiler-plugin>3.8.1</version.maven-compiler-plugin>
+  </properties>
+
+  
+  <modules>
+  	<module>seeker</module>
+  	<module>depot-contract</module>
+  	<module>depot-client</module>
+  	<module>depot-server</module>
+  	<module>sentry-contract</module>
+  	<module>sentry-client</module>
+  	<module>sentry-server</module>
+  	<module>feeder</module>
+  </modules>
+  
+  <dependencies>
+    <dependency>
+      <groupId>pt.ulisboa.tecnico.sdis</groupId>
+      <artifactId>zk-naming</artifactId>
+      <version>1.0.2</version>
+    </dependency>
+  </dependencies>
+  
+  <!-- JAVADOC -->
+  
+  <build>
+  	<plugins>
+  	<!--  Plugin to check available updates on dependencies -->
+  		<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>versions-maven-plugin</artifactId>
+				<version>2.7</version>
+				</plugin>
+  	</plugins>
+  </build>
+  
+  
+</project>

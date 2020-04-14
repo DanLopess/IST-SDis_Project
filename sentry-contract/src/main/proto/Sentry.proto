@@ -1,0 +1,82 @@
+//
+// Protocol buffers definition for Sentry
+//
+
+syntax = "proto3";
+package pt.sayf.sentry.grpc;
+
+//
+// Ctrl Messages
+//
+
+message ctrlPingRequest {}
+
+message ctrlPingResponse {
+	bool status = 1;
+	string name = 2;
+	float lat = 3;
+	float lon = 4;
+	repeated string mac = 5;
+}
+
+
+message ctrlClearRequest {}
+
+message ctrlClearResponse {
+	bool status = 1;
+}
+
+
+message ctrlInitRequest {
+	float lat = 1;
+	float lon = 2;
+	string name = 3;
+	repeated string macs = 4;
+}
+
+message ctrlInitResponse {
+	bool status = 1;
+}
+
+
+//
+// Sentry Messages
+//
+
+message feedRequest {
+	repeated string macs = 1;
+}
+
+message feedResponse {
+	bool status = 1;
+}
+
+message pushRequest {}
+
+message pushResponse {
+	bool status = 1;
+}
+
+
+//
+// Service Definition
+//
+
+service sentryService {
+	//Ctrl_ping routine
+	rpc ctrl_ping(ctrlPingRequest) returns (ctrlPingResponse);
+
+	//Ctrl_clear routine
+	rpc ctrl_clear(ctrlClearRequest) returns (ctrlClearResponse);
+	
+	//Ctrl_init routine
+	rpc ctrl_init(ctrlInitRequest) returns (ctrlInitResponse);
+	
+	//Feed routine
+	rpc feed(feedRequest) returns (feedResponse);
+	
+	//Push routine
+	rpc push(pushRequest) returns (pushResponse);
+}
+
+
